@@ -1,24 +1,14 @@
 import { readFileSync } from "fs";
 
-type GameSubset = { red: number; green: number; blue: number };
-type Game = { id: number; subsets: GameSubset[] };
+type Subset = { red: number; green: number; blue: number };
+type Game = { id: number; subsets: Subset[] };
 
 const INPUT_FILENAME = "2/input.txt";
-const BAG: GameSubset = { red: 12, green: 13, blue: 14 };
 
 const lines = getLinesFromFile(INPUT_FILENAME);
 const games = lines.map(getGameFromLine);
-const result = games.reduce((acc, game) => {
-  for (const color in BAG) {
-    const c = color as keyof GameSubset;
-    for (const subset of game.subsets) {
-      if (subset[c] > BAG[c]) {
-        return acc;
-      }
-    }
-  }
-  return acc + game.id;
-}, 0);
+const powers = games.map(getGamePower);
+const result = powers.reduce((prev, curr) => prev + curr, 0);
 
 console.log(result);
 
@@ -39,12 +29,27 @@ function getGameFromLine(line: string): Game {
   return { id, subsets };
 }
 
-function getSubsetFromStr(str: string): GameSubset {
-  const res: GameSubset = { red: 0, green: 0, blue: 0 };
+function getSubsetFromStr(str: string): Subset {
+  const res: Subset = { red: 0, green: 0, blue: 0 };
   const parts = str.split(", ");
   for (const part of parts) {
     const [countStr, color] = part.split(" ");
-    res[color as keyof GameSubset] = Number(countStr);
+    res[color as keyof Subset] = Number(countStr);
+  }
+  return res;
+}
+
+function getGamePower(game: Game): number {
+  return Object
+    .values(getGameMinSubset(game))
+    .reduce((prev, curr) => prev * curr, 1);
+}
+
+function getGameMinSubset({ subsets }: Game): Subset {
+  const res: Subset = { red: 0, green: 0, blue: 0 };
+  for (const color in res) {
+    const c = color as keyof Subset;
+    res[c] = Math.max(...subsets.map(s => s[c]).filter(Boolean));
   }
   return res;
 }
