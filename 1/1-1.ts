@@ -1,4 +1,4 @@
-import { readFileSync } from "fs";
+import { getLinesFromFile } from "../utils";
 
 const INPUT_FILENAME = "1/input.txt";
 
@@ -7,15 +7,6 @@ const values = lines.map(getValueFromLine);
 const result = values.reduce((prev, curr) => prev + curr, 0);
 
 console.log(result);
-
-function getLinesFromFile(path: string): string[] {
-  try {
-    return readFileSync(path, "utf8").split("\n");
-  } catch (e) {
-    console.error(e);
-    return [];
-  }
-}
 
 function getValueFromLine(line: string): number {
   const nums = line.match(/\d{1}/g)?.map(Number) ?? [0];

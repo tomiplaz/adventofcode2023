@@ -1,4 +1,4 @@
-import { readFileSync } from "fs";
+import { getLinesFromFile } from "../utils";
 
 type Subset = { red: number; green: number; blue: number };
 type Game = { id: number; subsets: Subset[] };
@@ -11,15 +11,6 @@ const powers = games.map(getGamePower);
 const result = powers.reduce((prev, curr) => prev + curr, 0);
 
 console.log(result);
-
-function getLinesFromFile(path: string): string[] {
-  try {
-    return readFileSync(path, "utf8").split("\n").filter(Boolean);
-  } catch (e) {
-    console.error(e);
-    return [];
-  }
-}
 
 function getGameFromLine(line: string): Game {
   const [gameStr, subsetsStr] = line.split(": ");

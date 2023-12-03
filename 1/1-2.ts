@@ -1,4 +1,4 @@
-import { readFileSync } from "fs";
+import { getLinesFromFile } from "../utils";
 
 const INPUT_FILENAME = "1/input.txt";
 const NUMBER_MAP: Record<string, number> = {
@@ -21,15 +21,6 @@ for (let i = 0, l = lines.length; i < l; i++) {
 const result = values.reduce((prev, curr) => prev + curr, 0);
 
 console.log(result);
-
-function getLinesFromFile(path: string): string[] {
-  try {
-    return readFileSync(path, "utf8").split("\n");
-  } catch (e) {
-    console.error(e);
-    return [];
-  }
-}
 
 function getValueFromLine(line: string): number {
   const regex = /(one|two|three|four|five|six|seven|eight|nine|\d){1}/g;

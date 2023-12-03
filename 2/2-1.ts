@@ -1,4 +1,4 @@
-import { readFileSync } from "fs";
+import { getLinesFromFile } from "../utils";
 
 type GameSubset = { red: number; green: number; blue: number };
 type Game = { id: number; subsets: GameSubset[] };
@@ -21,15 +21,6 @@ const result = games.reduce((acc, game) => {
 }, 0);
 
 console.log(result);
-
-function getLinesFromFile(path: string): string[] {
-  try {
-    return readFileSync(path, "utf8").split("\n").filter(Boolean);
-  } catch (e) {
-    console.error(e);
-    return [];
-  }
-}
 
 function getGameFromLine(line: string): Game {
   const [gameStr, subsetsStr] = line.split(": ");
