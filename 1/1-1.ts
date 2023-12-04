@@ -1,10 +1,10 @@
-import { getLinesFromFile } from "../utils";
+import { getLinesFromFile, sum } from "../utils";
 
 const INPUT_FILENAME = "1/input.txt";
 
 const lines = getLinesFromFile(INPUT_FILENAME);
 const values = lines.map(getValueFromLine);
-const result = values.reduce((prev, curr) => prev + curr, 0);
+const result = sum(values);
 
 console.log(result);
 

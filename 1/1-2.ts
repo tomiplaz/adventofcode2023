@@ -1,4 +1,4 @@
-import { getLinesFromFile } from "../utils";
+import { getLinesFromFile, sum } from "../utils";
 
 const INPUT_FILENAME = "1/input.txt";
 const NUMBER_MAP: Record<string, number> = {
@@ -18,7 +18,7 @@ const values = lines.map(getValueFromLine);
 for (let i = 0, l = lines.length; i < l; i++) {
   if (Number.isNaN(values[i])) console.log(i, lines[i], values[i]);
 }
-const result = values.reduce((prev, curr) => prev + curr, 0);
+const result = sum(values);
 
 console.log(result);
 

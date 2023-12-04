@@ -1,4 +1,4 @@
-import { getLinesFromFile } from "../utils";
+import { getLinesFromFile, sum } from "../utils";
 
 type Matrix = string[][];
 type Pos = [number, number];
@@ -12,9 +12,7 @@ const matrix = getMatrixFromLines(lines);
 const posNums = getPosNumsFromLines(lines);
 const gearsNums = getGearsNums(posNums, matrix);
 const validGearsRatios = getValidGearsRatios(gearsNums);
-const result = validGearsRatios.reduce((prev, curr) => {
-  return prev + curr;
-}, 0);
+const result = sum(validGearsRatios);
 
 console.log(result);
 

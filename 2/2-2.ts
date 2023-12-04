@@ -1,4 +1,4 @@
-import { getLinesFromFile } from "../utils";
+import { getLinesFromFile, sum } from "../utils";
 
 type Subset = { red: number; green: number; blue: number };
 type Game = { id: number; subsets: Subset[] };
@@ -8,7 +8,7 @@ const INPUT_FILENAME = "2/input.txt";
 const lines = getLinesFromFile(INPUT_FILENAME);
 const games = lines.map(getGameFromLine);
 const powers = games.map(getGamePower);
-const result = powers.reduce((prev, curr) => prev + curr, 0);
+const result = sum(powers);
 
 console.log(result);
 
