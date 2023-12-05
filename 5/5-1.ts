@@ -16,6 +16,10 @@ const INPUT_FILENAME = "5/input.txt";
 const lines = getLinesFromFile(INPUT_FILENAME, false);
 const seeds = getNumsFromStr(lines[0]);
 const maps = getMaps(lines);
+const locations = getLocations(seeds, maps);
+const result = Math.min(...locations);
+
+console.log(result);
 
 function getMaps(lines: string[]): Maps {
   const maps: Maps = {
@@ -35,5 +39,31 @@ function getMaps(lines: string[]): Maps {
     maps[name as keyof Maps] = mapLines.map(getNumsFromStr) as RangeMap[];
   }
   return maps;
+}
+
+function getLocations(seeds: number[], maps: Maps): number[] {
+  const mapsArr = [
+    maps["seed-to-soil"],
+    maps["soil-to-fertilizer"],
+    maps["fertilizer-to-water"],
+    maps["water-to-light"],
+    maps["light-to-temperature"],
+    maps["temperature-to-humidity"],
+    maps["humidity-to-location"]
+  ];
+  let result: number[] = seeds;
+  for (const map of mapsArr) {
+    result = getDestination(result, map);
+  }
+  return result;
+}
+
+function getDestination(source: number[], rangeMaps: RangeMap[]): number[] {
+  return source.map(v => {
+    const rangeMap = rangeMaps.find(([, sourceStart, length]) => {
+      return v >= sourceStart && v <= sourceStart + length;
+    });
+    return rangeMap ? rangeMap[0] + v - rangeMap[1] : v;
+  });
 }
 
